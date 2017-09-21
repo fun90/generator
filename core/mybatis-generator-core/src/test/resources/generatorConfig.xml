@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry
+            location="/Users/xionglingcong/env/apache-maven-3.3.9/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar"/>
+
+    <!--
+        context:生成一组对象的环境
+        id:必选，上下文id，用于在生成错误时提示
+        defaultModelType:指定生成对象的样式
+            1，conditional：类似hierarchical；
+            2，flat：所有内容（主键，blob）等全部生成在一个对象中；
+            3，hierarchical：主键生成一个XXKey对象(key class)，Blob等单独生成一个对象，其他简单属性在一个对象中(record class)
+        targetRuntime:
+            1，MyBatis3：默认的值，生成基于MyBatis3.x以上版本的内容，包括XXXBySample；
+            2，MyBatis3Simple：类似MyBatis3，只是不生成XXXBySample；
+        introspectedColumnImpl：类全限定名，用于扩展MBG
+    -->
+    <context id="MySQL" defaultModelType="flat" targetRuntime="MyBatis3">
+        <commentGenerator type="org.mybatis.generator.internal.SimpleCommentGenerator">
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="author" value="xionglingcong"/>
+            <property name="version" value="2.6.1"/>
+        </commentGenerator>
+
+        <!-- 数据库配置 -->
+        <!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@15.15.20.222:1521:biz1"
+                        userId="uop_order"  password="oracle" /> -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/ane_net_bill?autoReconnect=true&amp;characterEncoding=utf-8"
+                        userId="root" password="123456">
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
+
+
+        <!--
+        java类型处理器
+        用于处理DB中的类型到Java中的类型，默认使用JavaTypeResolverDefaultImpl；
+        注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型；
+        -->
+        <javaTypeResolver type="org.mybatis.generator.internal.types.SimpleJavaTypeResolverImpl">
+            <!--
+                true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+                false：默认,
+                    scale>0;length>18：使用BigDecimal;
+                    scale=0;length[10,18]：使用Long；
+                    scale=0;length[5,9]：使用Integer；
+                    scale=0;length<5：使用Short；
+             -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 实体类 D:\AsiaInfo\hn\dev\order-parent-->
+        <javaModelGenerator targetPackage="com.ane56.bill.po.waybill"
+                            targetProject="/Users/xionglingcong/ANE/ane-net-bill/src/main/java">
+            <!-- <property name="enableSubPackages" value="true" /> -->
+            <property name="trimStrings" value="true"/>
+            <!-- 可以为所有生成的实体类添加一个父类，但是MBG只负责生成，不负责检查 -->
+            <!-- <property name="rootClass" value="com.ai.ecs.ecm.base.BaseEntity"/> -->
+        </javaModelGenerator>
+
+        <!-- mapper.xml -->
+        <sqlMapGenerator targetPackage="mybatis.waybill"
+                         targetProject="/Users/xionglingcong/ANE/ane-net-bill/src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- DAO类 -->
+        <javaClientGenerator targetPackage="com.ane56.bill.dao.waybill" type="XMLMAPPER"
+                             targetProject="/Users/xionglingcong/ANE/ane-net-bill/src/main/java">
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+            <!-- <property name="enableSubPackages" value="true"/> -->
+
+            <!-- 可以为所有生成的接口添加一个父接口，但是MBG只负责生成，不负责检查 -->
+            <!-- <property name="rootInterface" value="com.ai.ecs.dao.ICrudDao"/> -->
+        </javaClientGenerator>
+
+        <!-- 表 -->
+        <table tableName="VENDOR"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="WAYBILL"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="WAYBILL_FIELD"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="WAYBILL_ORDER"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="WAYBILL_GOODS"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+
+    </context>
+</generatorConfiguration>

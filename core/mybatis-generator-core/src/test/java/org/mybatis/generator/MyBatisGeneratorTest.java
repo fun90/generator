@@ -15,30 +15,38 @@
  */
 package org.mybatis.generator;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.config.Configuration;
-import org.mybatis.generator.config.ConnectionFactoryConfiguration;
-import org.mybatis.generator.config.Context;
-import org.mybatis.generator.config.JDBCConnectionConfiguration;
-import org.mybatis.generator.config.ModelType;
+import org.mybatis.generator.config.*;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+
 public class MyBatisGeneratorTest {
+
+    @Test
+    public void test() throws Exception {
+        List<String> warnings = new ArrayList<String>();
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(this.getClass().getClassLoader().getResourceAsStream("generatorConfig-Oracle.xml"));
+
+        DefaultShellCallback shellCallback = new DefaultShellCallback(true);
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
+//        myBatisGenerator.generate(null, null, null, false);
+        myBatisGenerator.generate(null);
+    }
 
     @Test(expected = InvalidConfigurationException.class)
     public void testGenerateMyBatis3WithInvalidConfig() throws Exception {
         List<String> warnings = new ArrayList<String>();
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(this.getClass().getClassLoader().getResourceAsStream("generatorConfigMyBatis3_badConfig.xml"));
-            
+
         DefaultShellCallback shellCallback = new DefaultShellCallback(true);
 
         try {
